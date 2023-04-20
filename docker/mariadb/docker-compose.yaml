@@ -1,0 +1,42 @@
+version: "3"
+
+volumes:
+  v2board-data:
+  db-data:
+
+
+networks:
+  v2board:
+
+
+services:
+  www:
+    image: moefaq/v2board-lnrp-docker:mariadb
+    volumes:
+      - v2board-data:/data
+      - "/etc/localtime:/etc/localtime"
+    ports:
+      - "127.0.0.1:80:80"
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      DB_HOST: mariadb
+      DB_DATABASE: v2board
+      DB_USERNAME: root
+      DB_PASSWORD: YOURPASSWD
+      ADMIN_EMAIL: dev@dev.dev
+      LARAVEL_HORIZON_PROCS_NUM: 1
+    networks:
+      - v2board
+  mariadb:
+    image: mariadb:10.4
+    volumes:
+      - db-data:/var/lib/mysql
+      - "/etc/localtime:/etc/localtime"
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MARIADB_ROOT_PASSWORD: YOURPASSWD
+      MARIADB_DATABASE: v2board
+    networks:
+      - v2board

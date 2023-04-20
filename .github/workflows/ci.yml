@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout respo
+        uses: actions/checkout@v3
+      
+      - name: Setup builder
+        run: docker run --privileged --rm tonistiigi/binfmt --install all
+      - run: docker buildx create --name builder --driver docker-container --platform linux/amd64,linux/arm64 --use
+      - run: docker buildx inspect --bootstrap
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build image and push(mariadb)
+        run: docker buildx build -t moefaq/v2board-lnrp-docker:mariadb --platform linux/amd64,linux/arm64 --progress plain --push -f docker/mariadb/Dockerfile .
+
+      - name: Build image and push(mysql)
+        run: docker buildx build -t moefaq/v2board-lnrp-docker:mysql --platform linux/amd64 --progress plain --push -f docker/mysql/Dockerfile .
