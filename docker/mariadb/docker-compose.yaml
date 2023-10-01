@@ -16,15 +16,15 @@ services:
       - v2board-data:/data
       - "/etc/localtime:/etc/localtime"
     ports:
-      - "127.0.0.1:80:80"
+      - "127.0.0.1:3386:80"
     restart: always
     environment:
       TZ: Asia/Shanghai
       DB_HOST: mariadb
       DB_DATABASE: v2board
       DB_USERNAME: root
-      DB_PASSWORD: YOURPASSWD
-      ADMIN_EMAIL: dev@dev.dev
+      DB_PASSWORD: huihui666
+      ADMIN_EMAIL: dayao@aiwude.link
       LARAVEL_HORIZON_PROCS_NUM: 1
     networks:
       - v2board
@@ -36,7 +36,7 @@ services:
     restart: always
     environment:
       TZ: Asia/Shanghai
-      MARIADB_ROOT_PASSWORD: YOURPASSWD
+      MARIADB_ROOT_PASSWORD: huihui666
       MARIADB_DATABASE: v2board
     networks:
       - v2board
