@@ -1,13 +1,9 @@
-version: "3"
-
 volumes:
   v2board-data:
   db-data:
 
-
 networks:
   v2board:
-
 
 services:
   www:

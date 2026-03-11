@@ -10,19 +10,17 @@ done
 
 if [ ! -e "/data/initialized" ]; then
     
-#     cat > /data/tls/tls.cer << EOF
-# ${NGINX_CERT_TEXT}
-# EOF
-    
-#     cat > /data/tls/tls.key << EOF
-# ${NGINX_KEY_TEXT}
-# EOF
-    
     cd /data/wwwroot/
     wget https://github.com/composer/composer/releases/latest/download/composer.phar -O composer.phar
-    php composer.phar install -v
+    php composer.phar install -vvv
+    
+    php_main_version=$(php -v | head -n 1 | cut -d ' ' -f 2 | cut -d '.' -f 1)
+    if [ $php_main_version -ge 8 ]; then
+        php composer.phar require joanhey/adapterman
+    fi
     
     cat > /data/answerdata << EOF
+
 ${DB_HOST}
 ${DB_DATABASE}
 ${DB_USERNAME}
