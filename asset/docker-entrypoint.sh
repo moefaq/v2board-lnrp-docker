@@ -12,7 +12,7 @@ if [ ! -e "/data/initialized" ]; then
     
     cd /data/wwwroot/
     wget https://github.com/composer/composer/releases/latest/download/composer.phar -O composer.phar
-    php composer.phar install -vvv
+    php composer.phar install -v
     
     php_main_version=$(php -v | head -n 1 | cut -d ' ' -f 2 | cut -d '.' -f 1)
     if [ $php_main_version -ge 8 ]; then
@@ -20,7 +20,6 @@ if [ ! -e "/data/initialized" ]; then
     fi
     
     cat > /data/answerdata << EOF
-
 ${DB_HOST}
 ${DB_DATABASE}
 ${DB_USERNAME}
